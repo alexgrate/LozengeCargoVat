@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { NavLink, useNavigate, useLocation } from 'react-router-dom';
-import logo from "../../assets/logo/logo.png"
+import logo from "../../assets/logo.png"
 import { Menu, X, LogOut, User, LayoutDashboard, Package, Users, PlusCircle, Search } from "lucide-react"
 import { useAuth } from '../../constants/AuthContext';
 

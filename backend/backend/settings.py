@@ -32,8 +32,11 @@ RESET_SECRET_KEY = config('RESET_SECRET_KEY')
 
 
 # ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=Csv())
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = config(
+    "ALLOWED_HOSTS",
+    default="localhost,127.0.0.1",
+    cast=Csv()
+)
 
 # Application definition
 

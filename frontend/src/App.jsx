@@ -4,9 +4,9 @@ import { AuthProvider } from './constants/AuthContext';
 
 import Homepage from './components/HomePage/Homepage';
 import NavBar from './components/NavSec/NavBar';
-import StaffSignUp from './components/Register/StaffSignUp';
-import LoginForm from './components/Login/LoginForm';
-import SetupPage from './components/Setup/SetupPage';
+import StaffSignUp from './components/SignUp/StaffSignUp';
+import LoginForm from './components/SignIn/LoginForm';
+import SetupPage from './components/AdminSetup/SetupPage';
 import CreateShipmentForm from './components/Shipmentform/CreateShipmentForm';
 import EditShipmentFinancials from './components/Shipmentform/EditShipmentFinancials';
 

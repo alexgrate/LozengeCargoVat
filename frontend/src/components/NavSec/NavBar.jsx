@@ -22,8 +22,6 @@ const NavBar = () => {
     if (location.pathname === '/setup') return null
 
     const staffLinks = [
-        { label: 'Dashboard', href: '/staff/dashboard', icon: <LayoutDashboard className='w-4 h-4' /> },
-        { label: 'Shipments', href: '/shipments', icon: <Package className='w-4 h-4' /> },
         { label: 'New Shipment', href: '/shipments/create', icon: <PlusCircle className='w-4 h-4' /> },
     ]
 
@@ -32,7 +30,6 @@ const NavBar = () => {
         { label: 'Shipments', href: '/shipments', icon: <Package className='w-4 h-4' /> },
         { label: 'New Shipment', href: '/shipments/create', icon: <PlusCircle className='w-4 h-4' /> },
         { label: 'Edit Financials', href: '/admin/shipments/edit', icon: <Search className='w-4 h-4' /> },
-        { label: 'Users', href: '/admin/users', icon: <Users className='w-4 h-4' /> },
     ]
 
     const navLinks = isAdmin ? adminLinks : staffLinks

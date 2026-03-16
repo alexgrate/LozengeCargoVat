@@ -28,11 +28,10 @@ const LoginForm = () => {
         try {
             const user = await login(formData.email, formData.password)
 
-            // Redirect based on role
             if (user.role === 'ADMIN') {
-                navigate('/admin/dashboard')
+                navigate('/shipments/create')
             } else {
-                navigate('/staff/dashboard')
+                navigate('/shipments/create')
             }
         } catch (err) {
             const data = err.response?.data

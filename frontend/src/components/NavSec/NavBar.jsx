@@ -22,17 +22,12 @@ const NavBar = () => {
     if (location.pathname === '/setup') return null
 
     const staffLinks = [
-        { label: 'Dashboard', href: '/staff/dashboard', icon: <LayoutDashboard className='w-4 h-4' /> },
-        { label: 'Shipments', href: '/shipments', icon: <Package className='w-4 h-4' /> },
         { label: 'New Shipment', href: '/shipments/create', icon: <PlusCircle className='w-4 h-4' /> },
     ]
 
     const adminLinks = [
-        { label: 'Dashboard', href: '/admin/dashboard', icon: <LayoutDashboard className='w-4 h-4' /> },
-        { label: 'Shipments', href: '/shipments', icon: <Package className='w-4 h-4' /> },
         { label: 'New Shipment', href: '/shipments/create', icon: <PlusCircle className='w-4 h-4' /> },
         { label: 'Edit Financials', href: '/admin/shipments/edit', icon: <Search className='w-4 h-4' /> },
-        { label: 'Users', href: '/admin/users', icon: <Users className='w-4 h-4' /> },
     ]
 
     const navLinks = isAdmin ? adminLinks : staffLinks
@@ -42,9 +37,8 @@ const NavBar = () => {
             <div className="container px-4 mx-auto relative text-sm">
                 <div className='flex justify-between items-center'>
 
-                    {/* Logo */}
                     <div className='flex items-center shrink-0'>
-                        <NavLink to={user ? (isAdmin ? '/admin/dashboard' : '/staff/dashboard') : '/'}>
+                        <NavLink to={user ? (isAdmin ? '/shipments/create' : '/shipments/create') : '/'}>
                             <img className='h-8 w-auto' src={logo} alt="logo" />
                         </NavLink>
                     </div>

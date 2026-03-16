@@ -7,9 +7,8 @@ import NavBar from './components/NavSec/NavBar';
 import StaffSignUp from './components/SignUp/StaffSignUp';
 import LoginForm from './components/SignIn/LoginForm';
 import SetupPage from './components/AdminSetup/SetupPage';
-import CreateShipmentForm from './components/Shipmentform/CreateShipmentForm';
-import EditShipmentFinancials from './components/Shipmentform/EditShipmentFinancials';
-
+import CreateShipmentForm from './components/ShipMent/CreateShipmentForm'
+import EditShipmentFinancials from './components/ShipMent/EditShipmentFinancials';
 
 import api from './api/axios';
 

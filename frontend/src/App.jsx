@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom';
 import { AuthProvider } from './constants/AuthContext';
 
-import HomePage from './components/Home/HomePage';
+import Homepage from './components/HomePage/Homepage';
 import NavBar from './components/Navbar/NavBar';
 import StaffSignUp from './components/Register/StaffSignUp';
 import LoginForm from './components/Login/LoginForm';
@@ -33,7 +33,7 @@ const AppRoutes = () => {
     <div className='max-w-7xl mx-auto' style={{ colorScheme: 'light' }}>
       <NavBar />
       <Routes>
-        <Route path='/' element={<HomePage />} />
+        <Route path='/' element={<Homepage />} />
         <Route path='/setup' element={<SetupPage />} />
         <Route path='/register' element={<StaffSignUp />} />
         <Route path='/login' element={<LoginForm />} />

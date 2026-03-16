@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom';
 import { AuthProvider } from './constants/AuthContext';
 
 import Homepage from './components/HomePage/Homepage';
-import NavBar from './components/Navbar/NavBar';
+import NavBar from './components/NavSec/NavBar';
 import StaffSignUp from './components/Register/StaffSignUp';
 import LoginForm from './components/Login/LoginForm';
 import SetupPage from './components/Setup/SetupPage';

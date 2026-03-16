@@ -2,13 +2,13 @@ import React, { useEffect } from 'react'
 import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom';
 import { AuthProvider } from './constants/AuthContext';
 
-import HomePage from './components/home/Homepage';
-import NavBar from './components/navbar/NavBar';
+import HomePage from './components/Home/HomePage';
+import NavBar from './components/Navbar/NavBar';
 import StaffSignUp from './components/Register/StaffSignUp';
 import LoginForm from './components/Login/LoginForm';
-import SetupPage from './components/setup/SetupPage';
-import CreateShipmentForm from './components/shipmentform/CreateShipmentForm';
-import EditShipmentFinancials from './components/shipmentform/EditShipmentFinancials';
+import SetupPage from './components/Setup/SetupPage';
+import CreateShipmentForm from './components/Shipmentform/CreateShipmentForm';
+import EditShipmentFinancials from './components/Shipmentform/EditShipmentFinancials';
 
 
 import api from './api/axios';

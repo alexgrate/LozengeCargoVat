@@ -1,0 +1,222 @@
+import { useState, useEffect } from 'react'
+import { UserPlus, Mail, LockKeyhole, EyeClosed, EyeOff, Phone } from 'lucide-react'
+import { useNavigate } from 'react-router-dom'
+import { useAuth } from '../../constants/AuthContext'
+import api from '../../api/axios'
+
+const SetupPage = () => {
+    const [showPassword, setShowPassword] = useState(false)
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false)
+    const [error, setError] = useState('')
+    const [loading, setLoading] = useState(false)
+    const [checkingSetup, setCheckingSetup] = useState(true)
+    const { setup } = useAuth()
+    const navigate = useNavigate()
+
+    useEffect(() => {
+        const checkSetup = async () => {
+            try {
+                localStorage.clear()
+                
+                const res = await api.get('/auth/setup/status/')
+                if (res.data.setup_complete) {
+                    navigate('/login')
+                }
+            } catch {
+                navigate('/login')
+            } finally {
+                setCheckingSetup(false)
+            }
+        }
+        checkSetup()
+    }, [])
+
+    const [formData, setFormData] = useState({
+        first_name: '',
+        last_name: '',
+        email: '',
+        phone_number: '',
+        password: '',
+        confirm_password: '',
+    })
+
+    const handleChange = (e) => {
+        const { name, value } = e.target
+        setFormData(prev => ({ ...prev, [name]: value }))
+    }
+
+    const handleSubmit = async (e) => {
+        e.preventDefault()
+        setError('')
+
+        if (formData.password !== formData.confirm_password) {
+            setError('Passwords do not match')
+            return
+        }
+
+        setLoading(true)
+        try {
+            await setup(formData)
+            navigate('/login')
+        } catch (err) {
+            const data = err.response?.data
+            if (data?.error) {
+                setError(data.error)
+            } else if (data) {
+                const firstError = Object.values(data)[0]
+                setError(Array.isArray(firstError) ? firstError[0] : firstError)
+            } else {
+                setError('Something went wrong. Please try again.')
+            }
+        } finally {
+            setLoading(false)
+        }
+    }
+
+    if (checkingSetup) return <div className='flex items-center justify-center h-screen'>Checking setup...</div>
+
+    return (
+        <section className='bg-blue-50 flex items-center justify-center py-12 px-4'>
+            <div className='max-w-sm w-full'>
+                <div className='shadow-md bg-white rounded-lg mt-8 p-8'>
+                    <div className="mx-auto h-12 w-12 flex items-center justify-center rounded-full bg-blue-600 mb-4">
+                        <UserPlus className='text-white' />
+                    </div>
+                    <h2 className='mt-6 text-center text-2xl font-bold text-gray-900'>Admin Setup</h2>
+                    <p className='mt-1 text-center text-sm text-gray-600'>Create the owner account to get started</p>
+
+                    {error && (
+                        <div className='mt-4 p-3 bg-red-50 border border-red-200 rounded-md'>
+                            <p className='text-xs text-red-600'>{error}</p>
+                        </div>
+                    )}
+
+                    <form onSubmit={handleSubmit} className='mt-6'>
+                        <div className='flex gap-4 items-center'>
+                            <div>
+                                <label htmlFor="first_name" className='block text-xs font-medium text-gray-700 mb-2'>First name</label>
+                                <input
+                                    id="first_name"
+                                    name="first_name"
+                                    type="text"
+                                    required
+                                    placeholder='John'
+                                    value={formData.first_name}
+                                    onChange={handleChange}
+                                    className='text-sm pl-2 block w-full pr-3 py-2 border border-gray-300 rounded-md placeholder-gray-500 focus:outline-none focus:ring-blue-500 focus:border-blue-500'
+                                />
+                            </div>
+                            <div>
+                                <label htmlFor="last_name" className='block text-xs font-medium text-gray-700 mb-2'>Last name</label>
+                                <input
+                                    id="last_name"
+                                    name="last_name"
+                                    type="text"
+                                    required
+                                    placeholder='Doe'
+                                    value={formData.last_name}
+                                    onChange={handleChange}
+                                    className='text-sm pl-2 block w-full pr-3 py-2 border border-gray-300 rounded-md placeholder-gray-500 focus:outline-none focus:ring-blue-500 focus:border-blue-500'
+                                />
+                            </div>
+                        </div>
+
+                        <div className='mt-4'>
+                            <label htmlFor="email" className='block text-xs font-medium text-gray-700 mb-2'>Email Address</label>
+                            <div className='relative'>
+                                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                    <Mail className='w-4 h-4 text-gray-500' />
+                                </div>
+                                <input
+                                    id="email"
+                                    name="email"
+                                    type="email"
+                                    required
+                                    placeholder="John@example.com"
+                                    value={formData.email}
+                                    onChange={handleChange}
+                                    className="text-sm pl-10 block w-full pr-3 py-2 border border-gray-300 rounded-md placeholder-gray-500 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                                />
+                            </div>
+                        </div>
+
+                        <div className='mt-4'>
+                            <label htmlFor="phone_number" className='block text-xs font-medium text-gray-700 mb-2'>Phone Number</label>
+                            <div className='relative'>
+                                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                    <Phone className='w-4 h-4 text-gray-500' />
+                                </div>
+                                <input
+                                    id="phone_number"
+                                    name="phone_number"
+                                    type="tel"
+                                    required
+                                    placeholder="+1 (555) 123-4567"
+                                    value={formData.phone_number}
+                                    onChange={handleChange}
+                                    className="text-sm pl-10 block w-full pr-3 py-2 border border-gray-300 rounded-md placeholder-gray-500 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                                />
+                            </div>
+                        </div>
+
+                        <div className='mt-4'>
+                            <label htmlFor="password" className="block text-xs font-medium text-gray-700 mb-2">Password</label>
+                            <div className='relative'>
+                                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                    <LockKeyhole className='w-4 h-4 text-gray-500' />
+                                </div>
+                                <input
+                                    id="password"
+                                    name="password"
+                                    type={showPassword ? "text" : "password"}
+                                    required
+                                    placeholder="Create Password"
+                                    value={formData.password}
+                                    onChange={handleChange}
+                                    className="text-sm pl-10 block w-full pr-10 py-2 border border-gray-300 rounded-md placeholder-gray-500 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                                />
+                                <button type="button" className="absolute inset-y-0 right-0 pr-3 flex items-center" onClick={() => setShowPassword(!showPassword)}>
+                                    <span className="text-gray-500">{showPassword ? <EyeOff className='w-4 h-4' /> : <EyeClosed className='w-4 h-4' />}</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div className='mt-4'>
+                            <label htmlFor="confirm_password" className="block text-xs font-medium text-gray-700 mb-2">Confirm Password</label>
+                            <div className='relative'>
+                                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                    <LockKeyhole className='w-4 h-4 text-gray-500' />
+                                </div>
+                                <input
+                                    id="confirm_password"
+                                    name="confirm_password"
+                                    type={showConfirmPassword ? "text" : "password"}
+                                    required
+                                    placeholder="Confirm Password"
+                                    value={formData.confirm_password}
+                                    onChange={handleChange}
+                                    className="text-sm pl-10 block w-full pr-10 py-2 border border-gray-300 rounded-md placeholder-gray-500 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                                />
+                                <button type="button" className="absolute inset-y-0 right-0 pr-3 flex items-center" onClick={() => setShowConfirmPassword(!showConfirmPassword)}>
+                                    <span className="text-gray-500">{showConfirmPassword ? <EyeOff className='w-4 h-4' /> : <EyeClosed className='w-4 h-4' />}</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div>
+                            <button
+                                type="submit"
+                                disabled={loading}
+                                className="group relative mt-4 cursor-pointer w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
+                            >
+                                {loading ? 'Creating Admin Account...' : 'Create Admin Account'}
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+    )
+}
+
+export default SetupPage
